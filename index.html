@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Alimentación Canina - Cocker Spaniel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 20px;
+            position: relative;
+        }
+
+        .slides-container {
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            padding: 40px;
+            position: relative;
+            background: white;
+        }
+
+        .slide h1 {
+            color: #2c3e50;
+            font-size: clamp(1.8em, 5vw, 2.5em);
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .slide h2 {
+            color: #34495e;
+            font-size: clamp(1.5em, 4vw, 2em);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .slide h3 {
+            color: #2980b9;
+            font-size: clamp(1.2em, 3vw, 1.5em);
+            margin: 15px 0 10px 0;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+
+        .slide p, .slide li {
+            font-size: clamp(1em, 3vw, 1.1em);
+            line-height: 1.5;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .slide ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .slide li {
+            margin-bottom: 8px;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        @media (min-width: 600px) {
+            .nutrition-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .nutrition-card {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .nutrition-card h4 {
+            font-size: clamp(1.1em, 3vw, 1.3em);
+            margin-bottom: 10px;
+        }
+
+        .feeding-schedule {
+            background: linear-gradient(135deg, #55efc4, #00b894);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .age-group {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #ff7675, #d63031);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #fff;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .controls {
+            background: #2c3e50;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: clamp(0.9em, 3vw, 1em);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-size: clamp(0.9em, 3vw, 1.1em);
+        }
+
+        .title-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 60vh;
+        }
+
+        .title-slide h1 {
+            font-size: clamp(2em, 7vw, 3em);
+            border: none;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: clamp(1.1em, 4vw, 1.5em);
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .dog-icon {
+            font-size: clamp(3em, 10vw, 4em);
+            margin-bottom: 20px;
+        }
+
+        .responsive-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: clamp(0.8em, 3vw, 1em);
+        }
+
+        .responsive-table th,
+        .responsive-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .responsive-table th {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Touch scrolling for mobile */
+        @media (max-width: 600px) {
+            .slides-container {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .slide {
+                scroll-snap-align: start;
+            }
+            
+            .controls {
+                position: sticky;
+                bottom: 0;
+                z-index: 10;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slides-container" id="slidesContainer">
+            <!-- Slide 1: Título -->
+            <div class="slide title-slide">
+                <div class="dog-icon">🐕</div>
+                <h1>Alimentación Canina Saludable</h1>
+                <div class="subtitle">Cocker Spaniel - Raza Mediana</div>
+                <p style="font-size: clamp(1em, 3vw, 1.2em); opacity: 0.8;">Guía completa para una nutrición óptima</p>
+            </div>
+
+            <!-- Slide 2: Introducción -->
+            <div class="slide">
+                <h2>Características del Cocker Spaniel</h2>
+                <div class="nutrition-grid">
+                    <div class="nutrition-card">
+                        <h4>Peso Promedio</h4>
+                        <p>12-15 kg</p>
+                    </div>
+                    <div class="nutrition-card">
+                        <h4>Altura</h4>
+                        <p>35-41 cm</p>
+                    </div>
+                </div>
+                
+                <h3>Características Nutricionales Importantes:</h3>
+                <ul>
+                    <li>Metabolismo activo debido a su origen como perro de caza</li>
+                    <li>Tendencia a la obesidad si no se controla la alimentación</li>
+                    <li>Pelaje largo que requiere nutrientes específicos</li>
+                    <li>Propenso a problemas oculares y de oído</li>
+                    <li>Esperanza de vida: 12-15 años</li>
+                </ul>
+            </div>
+
+            <!-- Slide 3: Requerimientos Nutricionales -->
+            <div class="slide">
+                <h2>Requerimientos Nutricionales Básicos</h2>
+                
+                <h3>Macronutrientes Esenciales:</h3>
+                <div class="nutrition-grid">
+                    <div class="nutrition-card">
+                        <h4>Proteínas</h4>
+                        <p>22-25% (adultos)<br>28-30% (cachorros)</p>
+                    </div>
+                    <div class="nutrition-card">
+                        <h4>Grasas</h4>
+                        <p>8-15% (adultos)<br>8-17% (cachorros)</p>
+                    </div>
+                </div>
+                
+                <h3>Micronutrientes Importantes:</h3>
+                <ul>
+                    <li><strong>Ácidos grasos Omega-3 y Omega-6:</strong> Para el pelaje brillante</li>
+                    <li><strong>Vitamina A:</strong> Salud ocular</li>
+                    <li><strong>Vitamina E:</strong> Antioxidante natural</li>
+                    <li><strong>Calcio y Fósforo:</strong> Huesos y dientes fuertes</li>
+                    <li><strong>Zinc:</strong> Salud de la piel</li>
+                    <li><strong>Taurina:</strong> Función cardíaca</li>
+                </ul>
+            </div>
+
+            <!-- Slide 4: Alimentación por Etapas -->
+            <div class="slide">
+                <h2>Alimentación por Etapas de Vida</h2>
+                
+                <div class="age-group">
+                    <h3>Cachorro (2-12 meses)</h3>
+                    <ul>
+                        <li>3-4 comidas al día</li>
+                        <li>Alimento específico para cachorros</li>
+                        <li>200-400g diarios (según edad y peso)</li>
+                        <li>Alto contenido proteico (28-30%)</li>
+                    </ul>
+                </div>
+                
+                <div class="age-group">
+                    <h3>Adulto (1-7 años)</h3>
+                    <ul>
+                        <li>2 comidas al día</li>
+                        <li>300-450g diarios</li>
+                        <li>Proteína 22-25%</li>
+                        <li>Control de peso estricto</li>
+                    </ul>
+                </div>
+                
+                <div class="age-group">
+                    <h3>Senior (7+ años)</h3>
+                    <ul>
+                        <li>2 comidas al día (porciones menores)</li>
+                        <li>Alimento senior con menos calorías</li>
+                        <li>250-350g diarios</li>
+                        <li>Suplementos para articulaciones</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 5: Horarios de Alimentación -->
+            <div class="slide">
+                <h2>Horarios y Frecuencia de Alimentación</h2>
+                
+                <div class="feeding-schedule">
+                    <h3>Horario Recomendado para Adultos</h3>
+                    <table class="responsive-table">
+                        <tr>
+                            <th>Horario</th>
+                            <th>Comida</th>
+                            <th>Porción</th>
+                        </tr>
+                        <tr>
+                            <td>7:00 - 8:00 AM</td>
+                            <td>Desayuno</td>
+                            <td>50% de la ración diaria</td>
+                        </tr>
+                        <tr>
+                            <td>6:00 - 7:00 PM</td>
+                            <td>Cena</td>
+                            <td>50% de la ración diaria</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="tip-box">
+                    <h4>💡 Consejos Importantes:</h4>
+                    <ul>
+                        <li>Mantener horarios fijos ayuda a la digestión</li>
+                        <li>Esperar 1-2 horas después de comer antes del ejercicio</li>
+                        <li>Siempre tener agua fresca disponible</li>
+                        <li>No alimentar inmediatamente antes o después del baño</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 6: Alimentos Recomendados -->
+            <div class="slide">
+                <h2>Alimentos Recomendados y Prohibidos</h2>
+                
+                <h3>✅ Alimentos Seguros y Saludables:</h3>
+                <ul>
+                    <li><strong>Proteínas:</strong> Pollo, pavo, cordero, pescado, huevos cocidos</li>
+                    <li><strong>Carbohidratos:</strong> Arroz integral, avena, batata</li>
+                    <li><strong>Vegetales:</strong> Zanahoria, brócoli, calabaza, espinacas</li>
+                    <li><strong>Frutas:</strong> Manzana (sin semillas), arándanos, plátano</li>
+                    <li><strong>Otros:</strong> Yogur natural sin azúcar, aceite de coco</li>
+                </ul>
+                
+                <div class="warning-box">
+                    <h4>🚫 Alimentos Tóxicos - NUNCA dar:</h4>
+                    <ul>
+                        <li>Chocolate y cacao</li>
+                        <li>Uvas y pasas</li>
+                        <li>Cebolla y ajo</li>
+                        <li>Aguacate</li>
+                        <li>Xilitol (edulcorante artificial)</li>
+                        <li>Alcohol</li>
+                        <li>Huesos cocidos</li>
+                        <li>Nueces de macadamia</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 7: Problemas Específicos del Cocker -->
+            <div class="slide">
+                <h2>Consideraciones Especiales para Cocker Spaniel</h2>
+                
+                <h3>Tendencias de Salud y Nutrición:</h3>
+                
+                <div class="age-group">
+                    <h4>🦴 Prevención de Obesidad</h4>
+                    <ul>
+                        <li>Controlar porciones estrictamente</li>
+                        <li>Limitar premios a 10% de calorías diarias</li>
+                        <li>Pesar mensualmente</li>
+                        <li>Ejercicio regular (60 minutos diarios)</li>
+                    </ul>
+                </div>
+                
+                <div class="age-group">
+                    <h4>👁️ Salud Ocular</h4>
+                    <ul>
+                        <li>Alimentos ricos en Vitamina A</li>
+                        <li>Antioxidantes (arándanos, zanahoria)</li>
+                        <li>Ácidos grasos Omega-3</li>
+                    </ul>
+                </div>
+                
+                <div class="age-group">
+                    <h4>🦻 Salud del Oído</h4>
+                    <ul>
+                        <li>Evitar alimentos que causen alergias</li>
+                        <li>Dieta hipoalergénica si es necesario</li>
+                        <li>Probióticos para salud intestinal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 8: Suplementos y Premios -->
+            <div class="slide">
+                <h2>Suplementos y Premios Saludables</h2>
+                
+                <h3>Suplementos Recomendados:</h3>
+                <div class="nutrition-grid">
+                    <div class="nutrition-card">
+                        <h4>Omega-3</h4>
+                        <p>Aceite de pescado<br>Pelaje brillante</p>
+                    </div>
+                    <div class="nutrition-card">
+                        <h4>Probióticos</h4>
+                        <p>Salud digestiva<br>Sistema inmune</p>
+                    </div>
+                </div>
+                
+                <h3>Premios Saludables (con moderación):</h3>
+                <ul>
+                    <li>Trozos pequeños de pollo hervido</li>
+                    <li>Zanahoria cruda en bastones</li>
+                    <li>Cubitos de hielo (como premio refrescante)</li>
+                    <li>Galletas comerciales bajas en grasa</li>
+                    <li>Trozos de manzana sin semillas</li>
+                </ul>
+                
+                <div class="tip-box">
+                    <h4>📏 Regla de los Premios:</h4>
+                    <p>Los premios no deben superar el 10% de las calorías diarias totales. Para un Cocker adulto, esto equivale a aproximadamente 50-80 calorías.</p>
+                </div>
+            </div>
+
+            <!-- Slide 9: Señales de Alerta -->
+            <div class="slide">
+                <h2>Señales de Alerta Nutricionales</h2>
+                
+                <div class="warning-box">
+                    <h3>🚨 Cuándo Consultar al Veterinario:</h3>
+                    <ul>
+                        <li>Pérdida o aumento súbito de peso</li>
+                        <li>Cambios en el apetito (no come o come excesivamente)</li>
+                        <li>Vómitos o diarrea persistentes</li>
+                        <li>Pelaje opaco o pérdida excesiva de pelo</li>
+                        <li>Letargo o falta de energía</li>
+                        <li>Aliento excesivamente malo</li>
+                        <li>Cambios en el comportamiento alimentario</li>
+                    </ul>
+                </div>
+                
+                <h3>Indicadores de Buena Nutrición:</h3>
+                <ul>
+                    <li>✅ Pelaje brillante y suave</li>
+                    <li>✅ Energía y vitalidad apropiadas</li>
+                    <li>✅ Peso corporal ideal (se pueden sentir las costillas con ligera presión)</li>
+                    <li>✅ Heces firmes y bien formadas</li>
+                    <li>✅ Ojos claros y brillantes</li>
+                    <li>✅ Buen aliento (sin olores fuertes)</li>
+                </ul>
+            </div>
+
+            <!-- Slide 10: Conclusiones -->
+            <div class="slide">
+                <h2>Conclusiones y Recomendaciones Finales</h2>
+                
+                <div class="tip-box">
+                    <h3>🎯 Puntos Clave para Recordar:</h3>
+                    <ul>
+                        <li>La consistencia en horarios y porciones es fundamental</li>
+                        <li>Cada perro es único - ajustar según necesidades individuales</li>
+                        <li>La calidad del alimento es más importante que la cantidad</li>
+                        <li>El ejercicio regular complementa una buena alimentación</li>
+                        <li>Las visitas regulares al veterinario son esenciales</li>
+                    </ul>
+                </div>
+                
+                <h3>Plan de Acción:</h3>
+                <ol>
+                    <li>Establecer horarios fijos de alimentación</li>
+                    <li>Medir porciones según peso y actividad</li>
+                    <li>Seleccionar alimento de alta calidad específico para raza mediana</li>
+                    <li>Monitorear peso mensualmente</li>
+                    <li>Mantener registro de cambios en comportamiento o salud</li>
+                    <li>Programar chequeos veterinarios regulares</li>
+                </ol>
+                
+                <div style="text-align: center; margin-top: 30px; font-size: clamp(1em, 3vw, 1.2em); color: #2980b9;">
+                    <strong>¡Un Cocker bien alimentado es un Cocker feliz y saludable! 🐕❤️</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles de navegación -->
+        <div class="controls">
+            <button class="btn" id="prevBtn">← Anterior</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">10</span>
+            </span>
+            <button class="btn" id="nextBtn">Siguiente →</button>
+        </div>
+    </div>
+
+    <script>
+        const slidesContainer = document.getElementById('slidesContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentSlideDisplay = document.getElementById('currentSlide');
+        const totalSlidesDisplay = document.getElementById('totalSlides');
+        
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+        
+        totalSlidesDisplay.textContent = totalSlides;
+        
+        function updateSlidePosition() {
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+            currentSlideDisplay.textContent = currentSlide + 1;
+            
+            // Habilitar/deshabilitar botones
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+        }
+        
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            currentSlide = index;
+            updateSlidePosition();
+        }
+        
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlidePosition();
+            }
+        }
+        
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlidePosition();
+            }
+        }
+        
+        // Event listeners
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        
+        // Navegación con teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+        
+        // Touch/swipe para móviles
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        slidesContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+        
+        slidesContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+        
+        function handleSwipe() {
+            const difference = touchStartX - touchEndX;
+            if (difference > 50) nextSlide(); // Swipe izquierda
+            if (difference < -50) prevSlide(); // Swipe derecha
+        }
+        
+        // Inicializar
+        updateSlidePosition();
+        
+        // Ajustar altura del contenedor al cargar y al redimensionar
+        function adjustContainerHeight() {
+            const currentActiveSlide = slides[currentSlide];
+            const slideHeight = currentActiveSlide.offsetHeight;
+            slidesContainer.style.height = `${slideHeight}px`;
+        }
+        
+        window.addEventListener('load', adjustContainerHeight);
+        window.addEventListener('resize', adjustContainerHeight);
+        
+        // Observar cambios en el DOM para ajustar altura
+        const observer = new MutationObserver(adjustContainerHeight);
+        observer.observe(slidesContainer, { 
+            childList: true, 
+            subtree: true,
+            attributes: true,
+            characterData: true
+        });
+    </script>
+</body>
+</html>
