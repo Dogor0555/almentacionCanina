@@ -113,10 +113,41 @@
 
         .feeding-schedule {
             background: linear-gradient(135deg, #55efc4, #00b894);
-            color: white;
+            color: #000; /* Texto negro */
             padding: 15px;
             border-radius: 10px;
             margin: 15px 0;
+        }
+
+        /* Estilos específicos para la tabla de horarios */
+        .feeding-schedule .responsive-table {
+            color: #000; /* Texto negro */
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: clamp(0.8em, 3vw, 1em);
+        }
+
+        .feeding-schedule .responsive-table th,
+        .feeding-schedule .responsive-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            color: #000; /* Texto negro */
+        }
+
+        .feeding-schedule .responsive-table th {
+            background: linear-gradient(135deg, #55efc4, #00b894);
+            color: #000; /* Texto negro */
+            font-weight: bold;
+        }
+
+        .feeding-schedule .responsive-table tr:hover {
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .age-group {
@@ -206,30 +237,6 @@
         .dog-icon {
             font-size: clamp(3em, 10vw, 4em);
             margin-bottom: 20px;
-        }
-
-        .responsive-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            font-size: clamp(0.8em, 3vw, 1em);
-        }
-
-        .responsive-table th,
-        .responsive-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .responsive-table th {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
-            color: white;
-            font-weight: bold;
         }
 
         /* Touch scrolling for mobile */
